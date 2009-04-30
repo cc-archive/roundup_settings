@@ -27,15 +27,6 @@
 </script>
 <metal:x define-slot="more-javascript" />
 
-<script>
-function project_milestone_tree() {
-	var tree = new YAHOO.widget.TreeView("projects");
-	tree.render();
-}
-
-YAHOO.util.Event.onDOMReady(project_milestone_tree);
-</script>
-
 </head>
 <body class="body yui-skin-sam">
 
@@ -157,24 +148,6 @@ status_notresolved string:-1,1,2,3,4,5,6,7;
 			  '@dispname': p.name,
 			  })"
 	 >Project Name</a>
-       <ul tal:condition="python: db.milestone.filter(filterspec=dict(project=p.id))" >
-	 <li 
-	    tal:repeat="m python: db.milestone.filter(filterspec=dict(project=p.id))">
-	   <a href="#" tal:content="m/name"
-	      tal:attributes="href python:request.indexargs_url('issue', {
-			      '@sort': '-activity',
-			      '@group': 'priority',
-			      '@filter': 'status,project,milestone',
-			      '@columns': columns_showall,
-			      '@search_text': '',
-			      'status': status_notresolved,
-			      'project': p.id,
-			      'milestone': m.id,
-			      '@dispname': '%s (%s)' % (p.name, m.name),
-			      })"
-	      >Milestone name</a>
-	 </li>
-       </ul>
      </li>
    </ul>
     </div>
