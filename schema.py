@@ -40,12 +40,6 @@ project = Class(db, "project",
                 name=String())
 project.setkey("name")
 
-# Milestones
-milestone = Class(db, "milestone",
-                name=String(),
-                project=Multilink('project'))
-milestone.setkey("name")
-
 user = Class(db, "user",
                 username=String(),
                 password=Password(),
@@ -85,8 +79,7 @@ issue = IssueClass(db, "issue",
                 keyword=Multilink("keyword"),
                 priority=Link("priority"),
                 status=Link("status"),
-                project=Link("project"),
-                milestone=Link("milestone")
+                project=Link("project")
                 )
 
 #
@@ -104,12 +97,12 @@ db.security.addPermissionToRole('User', 'Email Access')
 
 # Assign the access and edit Permissions for issue, file and message
 # to regular users now
-for cl in 'issue', 'file', 'msg', 'keyword':
+for cl in 'issue', 'file', 'msg', 'keyword', 'project':
     db.security.addPermissionToRole('User', 'View', cl)
     db.security.addPermissionToRole('User', 'Edit', cl)
     db.security.addPermissionToRole('User', 'Create', cl)
 
-for cl in 'priority', 'status', 'milestone', 'project':
+for cl in 'priority', 'status':
     db.security.addPermissionToRole('User', 'View', cl)
 
 # May users view other user information? Comment these lines out
@@ -170,8 +163,8 @@ db.security.addPermissionToRole('Anonymous', 'Create', 'user')
 
 # Allow anonymous users access to view issues (and the related, linked
 # information)
-for cl in 'issue', 'file', 'msg', 'keyword', 'priority', 'status', 'project', 'milestone':
-    db.security.addPermissionToRole('Anonymous', 'View', cl)
+# for cl in 'issue', 'file', 'msg', 'keyword', 'priority', 'status', 'project', 'milestone':
+#    db.security.addPermissionToRole('Anonymous', 'View', cl)
 
 # [OPTIONAL]
 # Allow anonymous users access to create or edit "issue" items (and the
